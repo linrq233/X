@@ -1,5 +1,5 @@
 #!/bin/bash
-# shadowsocksR/SSR CentOS 7/8一键安装
+# shadowsocksR/SSR CentOS 7/8一键安装脚本
 
 
 

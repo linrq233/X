@@ -10,7 +10,7 @@ BLUE="\033[36m"     # Info message
 PLAIN='\033[0m'
 
 FILENAME="ShadowsocksR-v3.2.2"
-URL="https://github.com/shadowsocksrr/shadowsocksr/archive/3.2.2.tar.gz"
+URL="https://github.com/linrq233/X/releases/download/v3.2.2/shadowsocksr-3.2.2.tar.gz"
 BASE=`pwd`
 
 OS=`hostnamectl | grep -i system | cut -d: -f2`

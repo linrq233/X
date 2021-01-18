@@ -1,5 +1,5 @@
 #!/bin/bash
-# v2ray centos系统一键安装
+# v2ray centos系统一键安装脚本
 
 
 RED="\033[31m"      # Error message

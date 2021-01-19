@@ -45,7 +45,7 @@ checkSystem() {
 slogon() {
     clear
     echo "#############################################################"
-    echo -e "#         ${RED}CentOS 7/8 Shadowsocks/SS 一键安装脚本${PLAIN}           #"
+    echo -e "#         ${RED}CentOS 7/8 Shadowsocks/SS 一键安装脚本${PLAIN}             #"
     echo "#############################################################"
     echo ""
 }

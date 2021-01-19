@@ -1,6 +1,6 @@
 #!/bin/bash
-# v2ray centos系统一键安装教程
-# Author: hijk<https://hijk.art>
+# v2ray centos系统一键安装脚本
+
 
 RED="\033[31m"      # Error message
 GREEN="\033[32m"    # Success message
@@ -97,7 +97,7 @@ preinstall() {
 
 installV2ray() {
     colorEcho $BLUE " 安装v2ray..."
-    bash <(curl -sL https://raw.githubusercontent.com/hijkpw/scripts/master/goV2.sh)
+    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/upV2.sh)
 
     if [ ! -f /etc/v2ray/config.json ]; then
         colorEcho $RED " $OS 安装V2ray失败"

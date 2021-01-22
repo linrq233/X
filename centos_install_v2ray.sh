@@ -97,7 +97,7 @@ preinstall() {
 
 installV2ray() {
     colorEcho $BLUE " 安装v2ray..."
-    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/v3.2.2/goV2.sh)
+    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/install_V2.sh)
 
     if [ ! -f /etc/v2ray/config.json ]; then
         colorEcho $RED " $OS 安装V2ray失败"

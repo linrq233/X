@@ -375,8 +375,8 @@ installBBR() {
     fi
 
     colorEcho $BLUE " 安装BBR模块..."
-    rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-    rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
+    rpm --import https://github.com/linrq233/X/releases/download/RPM-GPG-KEY-elrepo/RPM-GPG-KEY-elrepo.org
+    rpm -Uvh https://github.com/linrq233/X/releases/download/elrepo-release-7.0-4.el7.elrepo.noarch/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
     yum --enablerepo=elrepo-kernel install kernel-ml -y
     yum remove kernel-3.* -y
     grub2-set-default 0

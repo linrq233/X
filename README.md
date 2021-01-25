@@ -24,7 +24,7 @@
 启动：`systemctl start v2ray`  
 停止：`systemctl stop v2ray`  
 重启：`systemctl restart v2ray`
-- 4.更改密码、端口、混淆参数：重新运行一次安装脚本  
+- 4.更改端口、alterid：重新运行一次安装脚本  
 - 5.卸载  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/V2ray/centos_install_v2ray.sh) uninstall`  
   

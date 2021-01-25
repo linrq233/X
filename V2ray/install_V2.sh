@@ -153,14 +153,17 @@ zipRoot() {
         NR != 1 {
             prefix_len = length(prefix);
             cur_len = length($4);
+
             for (len = prefix_len < cur_len ? prefix_len : cur_len; len >= 1; len -= 1) {
                 sub_prefix = substr(prefix, 1, len);
                 sub_cur = substr($4, 1, len);
+
                 if (sub_prefix == sub_cur) {
                     prefix = sub_prefix;
                     break;
                 }
             }
+
             if (len == 0) {
                 prefix = "";
                 nextfile;
@@ -175,7 +178,11 @@ zipRoot() {
 downloadV2Ray(){
     rm -rf /tmp/v2ray
     mkdir -p /tmp/v2ray
-        DOWNLOAD_LINK="https://github.com/linrq233/X/releases/download/v4.33.0/v2ray-linux-64.v4.33.0.zip"
+    if [[ "${DIST_SRC}" == "jsdelivr" ]]; then
+        DOWNLOAD_LINK="https://cdn.jsdelivr.net/gh/v2fly/dist/v2ray-linux-${VDIS}.zip"
+    else
+        DOWNLOAD_LINK="${V6_PROXY}https://github.com/v2fly/v2ray-core/releases/download/${NEW_VER}/v2ray-linux-${VDIS}.zip"
+    fi
     colorEcho ${BLUE} "Downloading V2Ray: ${DOWNLOAD_LINK}"
     curl ${PROXY} -L -H "Cache-Control: no-cache" -o ${ZIPFILE} ${DOWNLOAD_LINK}
     if [ $? != 0 ];then
@@ -264,7 +271,7 @@ getVersion(){
         elif [[ $RETVAL -ne 0 ]];then
             return 2
         elif [[ $NEW_VER != $CUR_VER ]];then
-            return 4
+            return 1
         fi
         return 0
     fi
@@ -333,6 +340,7 @@ installInitScript(){
 Description=V2Ray Service
 Documentation=https://www.v2ray.com/ https://www.v2fly.org/
 After=network.target nss-lookup.target
+
 [Service]
 # If the version of systemd is 240 or above, then uncommenting Type=exec and commenting out Type=simple
 #Type=exec
@@ -345,6 +353,7 @@ User=root
 NoNewPrivileges=true
 ExecStart=/usr/bin/v2ray/v2ray -config /etc/v2ray/config.json
 Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -419,21 +428,21 @@ remove(){
     fi
 }
 
-#checkUpdate(){
-#    echo "Checking for update."
-#    VERSION=""
-#    getVersion
-#    RETVAL="$?"
-#    if [[ $RETVAL -eq 1 ]]; then
-#        colorEcho ${BLUE} "Found new version ${NEW_VER} for V2Ray.(Current version:$CUR_VER)"
-#    elif [[ $RETVAL -eq 0 ]]; then
-#        colorEcho ${BLUE} "No new version. Current version is ${NEW_VER}."
-#    elif [[ $RETVAL -eq 2 ]]; then
-#        colorEcho ${YELLOW} "No V2Ray installed."
-#        colorEcho ${BLUE} "The newest version for V2Ray is ${NEW_VER}."
-#    fi
-#    return 0
-#}
+checkUpdate(){
+    echo "Checking for update."
+    VERSION=""
+    getVersion
+    RETVAL="$?"
+    if [[ $RETVAL -eq 1 ]]; then
+        colorEcho ${BLUE} "Found new version ${NEW_VER} for V2Ray.(Current version:$CUR_VER)"
+    elif [[ $RETVAL -eq 0 ]]; then
+        colorEcho ${BLUE} "No new version. Current version is ${NEW_VER}."
+    elif [[ $RETVAL -eq 2 ]]; then
+        colorEcho ${YELLOW} "No V2Ray installed."
+        colorEcho ${BLUE} "The newest version for V2Ray is ${NEW_VER}."
+    fi
+    return 0
+}
 
 main(){
     #helping information

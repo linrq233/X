@@ -1,6 +1,6 @@
 #!/bin/bash
-# v2ray centos系统一键安装脚本
-
+# v2ray centos系统一键安装教程
+# Author: hijk<https://hijk.art>
 
 RED="\033[31m"      # Error message
 GREEN="\033[32m"    # Success message
@@ -9,6 +9,15 @@ BLUE="\033[36m"     # Info message
 PLAIN='\033[0m'
 
 OS=`hostnamectl | grep -i system | cut -d: -f2`
+
+V6_PROXY=""
+IP=`curl -sL -4 ip.sb`
+if [[ "$?" != "0" ]]; then
+    IP=`curl -sL -6 ip.sb`
+    V6_PROXY="https://gh.hijk.art/"
+fi
+
+CONFIG_FILE="/etc/v2ray/config.json"
 
 colorEcho() {
     echo -e "${1}${@:2}${PLAIN}"
@@ -45,7 +54,7 @@ checkSystem() {
 slogon() {
     clear
     echo "#############################################################"
-    echo -e "#         ${RED}CentOS 7/8 Shadowsocks/SS 一键安装脚本${PLAIN}             #"
+    echo -e "#               ${RED}CentOS 7/8 V2ray一键安装脚本${PLAIN}                 #"
     echo "#############################################################"
     echo ""
 }
@@ -78,7 +87,7 @@ getData() {
 preinstall() {
     colorEcho $BLUE " 更新系统..."
     yum clean all
-    yum update -y
+    #yum update -y
 
     colorEcho $BLUE " 安装必要软件"
     yum install -y epel-release telnet wget vim net-tools ntpdate unzip
@@ -97,39 +106,27 @@ preinstall() {
 
 installV2ray() {
     colorEcho $BLUE " 安装v2ray..."
-    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/upV2.sh)
+    bash <(curl -sL ${V6_PROXY}https://raw.githubusercontent.com/linrq233/X/main/V2ray/goV2.sh)
 
-    if [ ! -f /etc/v2ray/config.json ]; then
+    if [ ! -f $CONFIG_FILE ]; then
         colorEcho $RED " $OS 安装V2ray失败"
         exit 1
     fi
 
-    sed -i -e "s/port\":.*[0-9]*,/port\": ${PORT},/" /etc/v2ray/config.json
+    sed -i -e "s/port\":.*[0-9]*,/port\": ${PORT},/" $CONFIG_FILE
     alterid=`shuf -i50-80 -n1`
-    sed -i -e "s/alterId\":.*[0-9]*/alterId\": ${alterid}/" /etc/v2ray/config.json
-    uid=`cat /etc/v2ray/config.json | grep id | cut -d: -f2 | tr -d \",' '`
+    sed -i -e "s/alterId\":.*[0-9]*/alterId\": ${alterid}/" $CONFIG_FILE
+    uid=`grep id $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     ntpdate -u time.nist.gov
-    if [ -d /etc/systemd/system/v2ray.service.d ]; then
-        rm -rf /etc/systemd/system/v2ray.service.d
-    fi
+    
     systemctl enable v2ray
     systemctl restart v2ray
     sleep 3
     res=`ss -ntlp| grep ${PORT} | grep v2ray`
     if [ "${res}" = "" ]; then
-        sed -i '/Capabili/d' /etc/systemd/system/v2ray.service
-        sed -i '/AmbientCapabilities/d' /etc/systemd/system/v2ray.service
-        sed -i '/Capabili/d' /etc/systemd/system/multi-user.target.wants/v2ray.service
-        sed -i '/AmbientCapabilities/d' /etc/systemd/system/multi-user.target.wants/v2ray.service
-        systemctl daemon-reload
-        systemctl restart v2ray
-        sleep 3
-        res=`ss -ntlp| grep ${PORT} | grep v2ray`
-        if [ "${res}" = "" ]; then
-            colorEcho $RED " 端口号：${PORT}， v2启动失败，请检查端口是否被占用！"
-            exit 1
-         fi
+        colorEcho $RED " 端口号：${PORT}， v2启动失败，请检查端口是否被占用！"
+        exit 1
     fi
     colorEcho $GREEN " v2ray安装成功！"
 }
@@ -156,8 +153,6 @@ installBBR() {
     if [ "$result" != "" ]; then
         colorEcho $YELLOW " BBR模块已安装"
         INSTALL_BBR=false
-        echo "3" > /proc/sys/net/ipv4/tcp_fastopen
-        echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
         return;
     fi
 
@@ -170,7 +165,6 @@ installBBR() {
 
     echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
     echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_fastopen = 3" >> /etc/sysctl.conf
     sysctl -p
     result=$(lsmod | grep bbr)
     if [[ "$result" != "" ]]; then
@@ -180,34 +174,35 @@ installBBR() {
     fi
 
     colorEcho $BLUE " 安装BBR模块..."
-    rpm --import https://github.com/linrq233/X/releases/download/RPM-GPG-KEY-elrepo/RPM-GPG-KEY-elrepo.org
-    rpm -Uvh https://github.com/linrq233/X/releases/download/elrepo-release-7.0-4.el7.elrepo.noarch/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
-    yum --enablerepo=elrepo-kernel install kernel-ml -y
-    grub2-set-default 0
-    echo "tcp_bbr" >> /etc/modules-load.d/modules.conf
-    echo "3" > /proc/sys/net/ipv4/tcp_fastopen
-    INSTALL_BBR=true
+    if [[ "$V6_PROXY" = "" ]]; then
+        rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+        rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
+        yum --enablerepo=elrepo-kernel install kernel-ml -y
+        grub2-set-default 0
+        echo "tcp_bbr" >> /etc/modules-load.d/modules.conf
+        INSTALL_BBR=true
+    fi
 }
 
 info() {
-    if [ ! -f /etc/v2ray/config.json ]; then
+    if [ ! -f $CONFIG_FILE ]; then
         echo -e " ${RED}未安装v2ray!${PLAIN}"
         exit 1
     fi
-    ip=`curl -s -4 icanhazip.com`
-    port=`cat /etc/v2ray/config.json | grep port | cut -d: -f2 | tr -d \",' '`
+
+    port=`grep port $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     res=`netstat -nltp | grep ${port} | grep v2ray`
     [ -z "$res" ] && status="${RED}已停止${PLAIN}" || status="${GREEN}正在运行${PLAIN}"
-    uid=`cat /etc/v2ray/config.json | grep id | cut -d: -f2 | tr -d \",' '`
-    alterid=`cat /etc/v2ray/config.json | grep alterId | cut -d: -f2 | tr -d \",' '`
-    res=`cat /etc/v2ray/config.json | grep network`
-    [ -z "$res" ] && network="tcp" || network=`cat /etc/v2ray/config.json | grep network | cut -d: -f2 | tr -d \",' '`
+    uid=`grep id $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
+    alterid=`grep alterId $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
+    res=`grep network $CONFIG_FILE`
+    [ -z "$res" ] && network="tcp" || network=`grep network $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     security="auto"
     
     raw="{
   \"v\":\"2\",
   \"ps\":\"\",
-  \"add\":\"$ip\",
+  \"add\":\"$IP\",
   \"port\":\"${port}\",
   \"id\":\"${uid}\",
   \"aid\":\"$alterid\",
@@ -222,10 +217,10 @@ info() {
 
     echo ============================================
     echo -e " ${BLUE}v2ray运行状态：${PLAIN} ${status}"
-    echo -e " ${BLUE}v2ray配置文件：${PLAIN} ${RED}/etc/v2ray/config.json${PLAIN}"
+    echo -e " ${BLUE}v2ray配置文件：${PLAIN} ${RED}$CONFIG_FILE${PLAIN}"
     echo ""
     echo -e " ${RED}v2ray配置信息：${PLAIN}               "
-    echo -e "   ${BLUE}IP(address):${PLAIN}   ${RED}${ip}${PLAIN}"
+    echo -e "   ${BLUE}IP(address):${PLAIN}   ${RED}${IP}${PLAIN}"
     echo -e "   ${BLUE}端口(port)：${PLAIN} ${RED}${port}${PLAIN}"
     echo -e "   ${BLUE}id(uuid)：${PLAIN} ${RED}${uid}${PLAIN}"
     echo -e "   ${BLUE}额外id(alterid)：${PLAIN}  ${RED}${alterid}${PLAIN}"

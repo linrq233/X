@@ -97,8 +97,8 @@ preinstall() {
 
 installV2ray() {
     colorEcho $BLUE " 安装v2ray..."
-	bash wget https://gitee.com/macro-demo/xvp/raw/master/v2ray/v4.34.0/v2ray-linux-64.zip
-    bash <(curl -sL https://gitee.com/macro-demo/xvp/raw/v4.34.0/centos/7/goV2.sh) -local v2ray-linux-64.zip
+	bash wget https://github.com/linrq233/X/releases/download/v4.34.0/v2ray-linux-64.zip
+    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/V2ray/goV2.sh) -local v2ray-linux-64.zip
 
     if [ ! -f /etc/v2ray/config.json ]; then
         colorEcho $RED " $OS 安装V2ray失败"

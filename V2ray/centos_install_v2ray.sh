@@ -1,5 +1,5 @@
 #!/bin/bash
-# v2ray centos系统一键安装脚本
+# v2ray centos系统一键安装
 
 
 RED="\033[31m"      # Error message
@@ -7,7 +7,6 @@ GREEN="\033[32m"    # Success message
 YELLOW="\033[33m"   # Warning message
 BLUE="\033[36m"     # Info message
 PLAIN='\033[0m'
-
 OS=`hostnamectl | grep -i system | cut -d: -f2`
 
 colorEcho() {
@@ -86,8 +85,9 @@ preinstall() {
     [ "$?" != "0" ] && yum install -y wget
     res=`which netstat`
     [ "$?" != "0" ] && yum install -y net-tools
-    yum install -y nginx
-    systemctl enable nginx && systemctl start nginx
+	#nginx得代码 直连不需要
+    #yum install -y nginx
+    #systemctl enable nginx && systemctl start nginx
 
     if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
         sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
@@ -97,7 +97,8 @@ preinstall() {
 
 installV2ray() {
     colorEcho $BLUE " 安装v2ray..."
-    bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/install_V2.sh)
+	bash wget https://gitee.com/macro-demo/xvp/raw/master/v2ray/v4.34.0/v2ray-linux-64.zip
+    bash <(curl -sL https://gitee.com/macro-demo/xvp/raw/v4.34.0/centos/7/goV2.sh) -local v2ray-linux-64.zip
 
     if [ ! -f /etc/v2ray/config.json ]; then
         colorEcho $RED " $OS 安装V2ray失败"
@@ -180,8 +181,8 @@ installBBR() {
     fi
 
     colorEcho $BLUE " 安装BBR模块..."
-    rpm --import https://github.com/linrq233/X/releases/download/RPM-GPG-KEY-elrepo/RPM-GPG-KEY-elrepo.org
-    rpm -Uvh https://github.com/linrq233/X/releases/download/elrepo-release-7.0-4.el7.elrepo.noarch/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
+    rpm --import https://gitee.com/macro-demo/xvp/raw/master/BBR/RPM-GPG-KEY-elrepo.org
+    rpm -Uvh https://gitee.com/macro-demo/xvp/raw/master/BBR/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
     yum --enablerepo=elrepo-kernel install kernel-ml -y
     grub2-set-default 0
     echo "tcp_bbr" >> /etc/modules-load.d/modules.conf

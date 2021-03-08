@@ -407,7 +407,7 @@ info() {
     echo -e " ${BLUE}ssr运行状态：${PLAIN}${status}"
     echo -e " ${BLUE}ssr配置文件：${PLAIN}${RED}/etc/shadowsocksR.json${PLAIN}"
     echo ""
-    echo -e " ${YELLOW}ssr配置信息：${PLAIN}"
+    echo -e " ${RED}ssr配置信息：${PLAIN}"
     echo -e "   ${BLUE}IP(address):${PLAIN}  ${RED}${ip}${PLAIN}"
     echo -e "   ${BLUE}端口(port)：${PLAIN}${RED}${port}${PLAIN}"
     echo -e "   ${BLUE}密码(password)：${PLAIN}${RED}${password}${PLAIN}"

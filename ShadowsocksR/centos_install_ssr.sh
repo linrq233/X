@@ -404,7 +404,7 @@ info() {
 
     echo ""
     echo ============================================
-    echo -e " ${BLUE}ssr运行状态：${PLAIN} ${YELLOW}${status}"
+    echo -e " ${BLUE}ssr运行状态：${PLAIN} ${YELLOW}${status}${PLAIN}"
     echo -e " ${BLUE}ssr配置文件：${PLAIN}${RED}/etc/shadowsocksR.json${PLAIN}"
     echo ""
     echo -e " ${RED}ssr配置信息：${PLAIN}"

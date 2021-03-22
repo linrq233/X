@@ -4,8 +4,9 @@
 - 1.初次安装  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh)`
 - 2.查看运行状态/配置  
-`bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) info`  
-`bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr2.sh) info`
+`bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) info`
+
+  `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr2.sh) info`
 -  3.管理命令  
 启动：`systemctl start shadowsocksR`  
 停止：`systemctl stop shadowsocksR`  

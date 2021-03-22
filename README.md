@@ -3,7 +3,7 @@
 ## **ShadowsocksR（v.3.2.2）**
 - 1.初次安装  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh)`
-- 2.查看运行状态/配置  
+- 2.查看运行状态/配置（如不想更新组件，请使用第二行命令）  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) info`
 
   `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr2.sh) info`
@@ -14,7 +14,7 @@
 - 4.更新组件、更改密码、端口、混淆参数：重新运行一次安装脚本（如不想更新组件，请使用第6条）  
 - 5.卸载  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) uninstall`
-- 6.去除更新组件，适合更改密码、端口、混淆参数  
+- 6.去除更新组件的安装脚本，适合更改密码、端口、混淆参数  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr2.sh)`
   
   

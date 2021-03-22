@@ -6,18 +6,17 @@
 - 2.查看运行状态/配置  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) info`
 -  3.管理命令  
-启动：`systemctl start shadowsocksR`
-停止：`systemctl stop shadowsocksR`
-重启：`systemctl restart shadowsocksR`
+启动：`systemctl start shadowsocksR`  
+停止：`systemctl stop shadowsocksR`  
+重启：`systemctl restart shadowsocksR`  
 - 4.更新组件、更改密码、端口、混淆参数：重新运行一次安装脚本（如不想更新组件，请使用第6条）  
 - 5.卸载  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) uninstall`
-- 6.去除更新组件，适合更改密码、端口、混淆参数
+- 6.去除更新组件，适合更改密码、端口、混淆参数  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr2.sh)`
-
-
-    
-    
+  
+  
+  
 ## **V2ray（v4.34.0）**
 - 1.安装  
 `bash <(curl -sL curl -sL https://raw.githubusercontent.com/linrq233/X/main/V2ray/centos_install_v2ray.sh)`

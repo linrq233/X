@@ -42,3 +42,4 @@
 #### **文件与脚本引用参考**  
 > https://github.com/shadowsocksrr  
 > https://github.com/v2fly  
+> https://github.com/2dust

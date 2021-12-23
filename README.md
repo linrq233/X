@@ -34,6 +34,12 @@
   
   
 
+## **MTProto一键安装脚本**
+- 安装/查看运行状态或配置/管理命令/卸载  
+`bash <(curl -sL curl -sL https://raw.githubusercontent.com/linrq233/X/main/MTProto.sh)`
+
+
+
 ## **说明**  
 本资源仅供学习交流，严禁用于商业用途，请于24小时内删除。  
   

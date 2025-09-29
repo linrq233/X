@@ -273,8 +273,8 @@ generate_ssr_link() {
 
   if ((${#v4s[@]})); then
     for ip4 in "${v4s[@]}"; do
-      remarks_b64url="$(enc_b64url "X:${ip4}:${PORT}")"
-      group_b64url="$(enc_b64url "O")"
+      remarks_b64url="$(enc_b64url "O:${ip4}:${PORT}")"
+      group_b64url="$(enc_b64url "X")"
       # 规范 Raw：只有一个 ?，空参数也保留 key
       local raw="${ip4}:${PORT}:${PROTOCOL}:${METHOD}:${OBFS}:${pwd_b64url}/?obfsparam=&protoparam=&remarks=${remarks_b64url}&group=${group_b64url}"
       # 外层 URL-safe base64

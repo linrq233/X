@@ -2,7 +2,6 @@
 # 🚀 SSR For Ubuntu 管理脚本
 # 支持 Debian/Ubuntu/CentOS/RHEL/Rocky/AlmaLinux/Fedora/openSUSE
 
-
 stty erase ^H   # 让退格键在终端里正常工作
 
 DOCKER_IMAGE="yinqishuo/ssr:0.01"

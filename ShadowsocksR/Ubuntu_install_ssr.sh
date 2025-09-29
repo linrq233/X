@@ -2,7 +2,7 @@
 # ShadowsocksR 一键安装脚本（修改适配 Ubuntu 24.04 + Python3.7）
 
 
-pre在stall() {
+preinstall() {
     colorEcho $BLUE " 更新系统"
     auto clean all
     apt update

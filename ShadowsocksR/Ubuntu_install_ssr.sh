@@ -1,4 +1,4 @@
-#!/b在/bash
+#!/bin/bash
 # ShadowsocksR 一键安装脚本（修改适配 Ubuntu 24.04 + Python3.7）
 
 

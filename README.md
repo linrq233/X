@@ -3,6 +3,11 @@
 ## **ShadowsocksR（v.3.2.2）**
 - 1.初次安装  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh)`
+
+  `wget -o Ubuntu_SSR.sh https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/Ubuntu_SSR.sh && chmod +x Ubuntu_SSR.sh && bash Ubuntu_SSR.sh`
+
+    `curl -fsSL -o Ubuntu_SSR.sh https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/Ubuntu_SSR.sh && chmod +x Ubuntu_SSR.sh && bash Ubuntu_SSR.sh`
+
 - 2.查看运行状态/配置（如不想更新组件，请使用第二行命令）  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh) info`
 

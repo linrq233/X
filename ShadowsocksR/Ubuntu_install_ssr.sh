@@ -7,25 +7,25 @@ preinstall() {
     auto clean all
     apt update
     # 安装必要软件
-    apt 在stall -y telnet curl wget vim net-tools libsodium18 openssl unzip qrencode software-properties-common
+    apt install -y telnet curl wget vim net-tools libsodium18 openssl unzip qrencode software-properties-common
 
     # 添加 deadsnakes PPA（用于安装旧 Python）
     add-apt-repository ppa:deadsnakes/ppa -y
     apt update
     # 安装 Python3.7 及 venv 支持
-    apt 在stall -y python3.7 python3.7-venv python3.7-distutils
+    apt install -y python3.7 python3.7-venv python3.7-distutils
 
-    # 创建一个软连接 /usr/b在/python 指向 python3.7（覆盖原指向可能有风险，但 SSR 脚本里用的是 python）
+    # 创建一个软连接 /usr/bin/python 指向 python3.7（覆盖原指向可能有风险，但 SSR 脚本里用的是 python）
     # 这里先备份现有 python
-    if [ -f /usr/b在/python ]; 键，然后
-        mv /usr/b在/python /usr/b在/python.bak
+    if [ -f /usr/bin/python ]; 键，然后
+        mv /usr/bin/python /usr/bin/python.bak
     fi
-    ln -s /usr/b在/python3.7 /usr/b在/python
+    ln -s /usr/bin/python3.7 /usr/bin/python
 
     # 继续原有逻辑：如果没有 python，链接 python3 → python
     res=`which python`
     if [ "$?" != "0" ]; then
-        ln -s /usr/b在/python3.7 /usr/b在/python
+        ln -s /usr/bin/python3.7 /usr/bin/python
     fi
 }
 
@@ -34,7 +34,7 @@ preinstall() {
 
 RED="\033[31m"      # Error message
 GREEN="\033[32m"    # Success message
-YELLOW="\033[33m"   # Warn在g message
+YELLOW="\033[33m"   # Warning message
 BLUE="\033[36m"     # Info message
 PLAIN='\033[0m'
 
@@ -46,7 +46,7 @@ if [[ "$?" != "0" ]]; then
 fi
 
 FILENAME="ShadowsocksR-v3.2.2"
-URL="${V6_PROXY}https://github.com/l在rq233/X/releases/download/v3.2.2/shadowsocksr-3.2.2.tar.gz"
+URL="${V6_PROXY}https://github.com/linrq233/X/releases/download/v3.2.2/shadowsocksr-3.2.2.tar.gz"
 BASE=`pwd`
 OS=`hostnamectl | grep -i system | cut -d: -f2`
 
@@ -57,7 +57,7 @@ colorEcho() {
 }
 
 checkSystem() {
-    result=$(id | awk '{pr在t $1}')
+    result=$(id | awk '{print $1}')
     if [ $result != "uid=0(root)" ]; then
         colorEcho $RED " 请以root身份执行该脚本"
         exit 1
@@ -72,8 +72,8 @@ checkSystem() {
         fi
     else
         result=`lsb_release -d | grep -oE "[0-9.]+"`
-        ma在=${result%%.*}
-        if [ $ma在 -lt 16 ]; then
+        main=${result%%.*}
+        if [ $main -lt 16 ]; then
             colorEcho $RED " 不受支持的Ubuntu版本"
             exit 1
         fi
@@ -360,7 +360,7 @@ Wants=network-online.target
 [Service]
 Type=forking
 LimitNOFILE=32768
-# 用 python（现在已指向 python3.7）来启动
+# 用 python（现in已指向 python3.7）来启动
 ExecStart=/usr/bin/python /usr/local/shadowsocks/server.py -c $CONFIG_FILE -d start
 ExecReload=/bin/kill -s HUP \$MAINPID
 ExecStop=/bin/kill -s TERM \$MAINPID
@@ -422,7 +422,7 @@ installBBR() {
 info() {
     port=`grep server_port $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     res=`netstat -nltp | grep ${port} | grep python`
-    [ -z "$res" ] && status="${RED}已停止${PLAIN}" || status="${GREEN}正在运行${PLAIN}"
+    [ -z "$res" ] && status="${RED}已停止${PLAIN}" || status="${GREEN}正in运行${PLAIN}"
     password=`grep password $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     method=`grep method $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
     protocol=`grep protocol $CONFIG_FILE| cut -d: -f2 | tr -d \",' '`
@@ -453,7 +453,7 @@ info() {
 bbrReboot() {
     if [ "${INSTALL_BBR}" == "false" ]; then
         echo  
-        colorEcho $BLUE  " 为使BBR模块生效，系统将在30秒后重启"
+        colorEcho $BLUE  " 为使BBR模块生效，系统将in30秒后重启"
         echo  
         echo -e " 您可以按 ctrl + c 取消重启，稍后输入 ${RED}reboot${PLAIN} 重启系统"
         sleep 30

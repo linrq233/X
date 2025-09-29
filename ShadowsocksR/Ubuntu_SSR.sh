@@ -4,7 +4,7 @@
 
 stty erase ^H   # 让退格键在终端里正常工作
 
-DOCKER_IMAGE="linrq233/ssr:1.0"
+DOCKER_IMAGE="linrq233/ssr:v1.0"
 CONTAINER_NAME="ssr"
 CONFIG_PATH="/etc/shadowsocks-r/config.json"
 

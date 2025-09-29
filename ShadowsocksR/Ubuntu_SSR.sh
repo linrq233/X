@@ -335,7 +335,7 @@ run_container_with_boot(){
     --restart unless-stopped \
     -p ${map_port}:${map_port} \
     --health-cmd "python -c 'import socket,sys; s=socket.socket(); s.settimeout(2); s.connect((\"127.0.0.1\",${map_port})); s.close()' || exit 1" \
-    --health-interval 10秒 --health-retries 3 --health-timeout 3秒 --health-start-period 5秒 \
+    --health-interval 10s --health-retries 3 --health-timeout 3s --health-start-period 5s \
     $DOCKER_IMAGE \
     bash -lc 'cat >/usr/local/bin/ssr-boot.sh << "SH"
 #!/bin/bash

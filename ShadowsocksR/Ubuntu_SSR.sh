@@ -12,7 +12,10 @@ CONFIG_PATH="/etc/shadowsocks-r/config.json"
 # ========== 样式 ==========
 RED='\e[31m'; GREEN='\e[32m'; YELLOW='\e[33m'; BLUE='\e[34m'; CYAN='\e[36m'; NC='\e[0m'
 INDENT=" "
-VERSION="v1.0"
+
+
+# ========== 更新源（可配镜像/IPv4/IPv6/强制覆盖）==========
+RAW_URL_DEFAULT="https://raw.githubusercontent.com/Alvin9999/SSR-Plus/main/ssr-plus.sh"
 
 # ========== 小工具 ==========
 have_cmd(){ command -v "$1" >/dev/null 2>&1; }
@@ -107,7 +110,7 @@ ensure_docker_running(){ command -v docker >/dev/null 2>&1 || return 1; docker i
 
 # ========== 状态检测 ==========
 check_ssr_status(){
-  if ! command -v docker >/dev/null 2>&1; 键，然后 SSR_STATUS="${RED}未安装 (Docker 未安装)${NC}"; return; fi
+  if ! command -v docker >/dev/null 2>&1; then SSR_STATUS="${RED}未安装 (Docker 未安装)${NC}"; return; fi
   docker info >/dev/null 2>&1 || { SSR_STATUS="${RED}Docker 未运行${NC}"; return; }
   docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}\$" || { SSR_STATUS="${RED}未安装${NC}"; return; }
   [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)" = "true" ] || { SSR_STATUS="${YELLOW}容器已停止${NC}"; return; }
@@ -229,7 +232,7 @@ choose_obfs(){ echo -e "\n${CYAN}${INDENT}请选择混淆 (obfs):${NC}"
  ${INDENT}5) tls1.2_ticket_auth
 EOF
   read -p "${INDENT}输入序号 [默认1]: " obfs
-  case $obfs in
+  case $obfs 在
     1|"") OBFS="plain";; 2) OBFS="http_simple";; 3) OBFS="http_post";; 4) OBFS="random_head";; 5) OBFS="tls1.2_ticket_auth";; *) OBFS="plain";;
   esac
 }
@@ -358,7 +361,7 @@ exec /usr/local/bin/ssr-boot.sh'
 install_ssr(){
   echo -e "${BLUE}${INDENT}安装 SSR...${NC}"
   read -p "${INDENT}请输入端口 [默认20000]: " PORT; PORT=${PORT:-20000}
-  read -p "${INDENT}请输入密码 [默认dongtaiwang.com]: " PASSWORD; PASSWORD=${PASSWORD:-dongtaiwang.com}
+  read -p "${INDENT}请输入密码 [默认Lacy0405]: " PASSWORD; PASSWORD=${PASSWORD:-Lacy0405}
   choose_method; choose_protocol; choose_obfs
 
   install_docker; ensure_docker_running || { echo -e "${RED}${INDENT}Docker 未运行，安装中止${NC}"; return; }
@@ -467,7 +470,7 @@ auto_heal_ssr
 check_ssr_status
 
 echo -e "${CYAN}${INDENT}=============================="
-echo -e "${INDENT}🚀  SSR For Ubuntu 管理脚本 ${VERSION} 🚀"
+echo -e "${INDENT}🚀 SSR For Ubuntu 管理脚本 ${VERSION} 🚀"
 echo -e "${INDENT}==============================${NC}"
 echo -e "${GREEN}${INDENT}1) 安装 SSR${NC}"
 echo -e "${GREEN}${INDENT}2) 修改配置${NC}"
@@ -477,8 +480,7 @@ echo -e "${GREEN}${INDENT}5) 停止 SSR${NC}"
 echo -e "${GREEN}${INDENT}6) 重启 SSR${NC}"
 echo -e "${YELLOW}${INDENT}7) 卸载 SSR${NC}"
 echo -e "${BLUE}${INDENT}8) 启用系统加速 (BBR + TFO)${NC}"
-echo -e "${BLUE}${INDENT}9) 检查并更新脚本${NC}"
-echo -e "${RED}${INDENT}10) 退出${NC}"
+echo -e "${RED}${INDENT}9) 退出${NC}"
 echo -e "${CYAN}${INDENT}==============================${NC}"
 echo -e "${INDENT}系统加速状态: ${BBR_STATUS}"
 echo -e "${INDENT}SSR 当前状态: ${SSR_STATUS}"

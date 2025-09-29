@@ -17,7 +17,7 @@ preinstall() {
 
     # 创建一个软连接 /usr/bin/python 指向 python3.7（覆盖原指向可能有风险，但 SSR 脚本里用的是 python）
     # 这里先备份现有 python
-    if [ -f /usr/bin/python ]; 键，然后
+    if [ -f /usr/bin/python ]; then
         mv /usr/bin/python /usr/bin/python.bak
     fi
     ln -s /usr/bin/python3.7 /usr/bin/python
@@ -360,7 +360,7 @@ Wants=network-online.target
 [Service]
 Type=forking
 LimitNOFILE=32768
-# 用 python（现in已指向 python3.7）来启动
+# 用 python（现在已指向 python3.7）来启动
 ExecStart=/usr/bin/python /usr/local/shadowsocks/server.py -c $CONFIG_FILE -d start
 ExecReload=/bin/kill -s HUP \$MAINPID
 ExecStop=/bin/kill -s TERM \$MAINPID

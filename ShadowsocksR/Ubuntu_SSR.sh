@@ -4,7 +4,7 @@
 
 stty erase ^H   # 让退格键在终端里正常工作
 
-DOCKER_IMAGE="linrq233/xs:1.0"
+DOCKER_IMAGE="linrq233/ssr:1.0"
 CONTAINER_NAME="ssr"
 CONFIG_PATH="/etc/shadowsocks-r/config.json"
 
@@ -212,7 +212,7 @@ choose_protocol(){ echo -e "\n${CYAN}${INDENT}请选择协议 (protocol):${NC}"
  ${INDENT}5) auth_chain_a
  ${INDENT}6) auth_chain_b
 EOF
-  read -p "${INDENT}输入序号 [默认2]: " protocol
+  read -p "${INDENT}输入序号 [默认3]: " protocol
   case $protocol in
     1) PROTOCOL="origin";; 2|"") PROTOCOL="auth_sha1_v4";; 3) PROTOCOL="auth_aes128_md5";;
     4) PROTOCOL="auth_aes128_sha1";; 5) PROTOCOL="auth_chain_a";; 6) PROTOCOL="auth_chain_b";; *) PROTOCOL="auth_sha1_v4";;

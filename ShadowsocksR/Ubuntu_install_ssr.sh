@@ -317,25 +317,37 @@ installSSR() {
         cd ${BASE} && rm -rf shadowsocksr-3.2.2 ${FILENAME}.tar.gz
     fi
 
-     cat > $CONFIG_FILE<<-EOF
+# --- 交互式输入配置 ---
+read -p "请输入服务端口 (默认 8388): " ssr_port
+ssr_port=${ssr_port:-8388}
+
+read -p "请输入连接密码 (默认 password123): " ssr_pass
+ssr_pass=${ssr_pass:-password123}
+
+read -p "请输入加密方式 (默认 aes-256-cfb): " ssr_method
+ssr_method=${ssr_method:-aes-256-cfb}
+
+read -p "请输入协议 (默认 origin): " ssr_protocol
+ssr_protocol=${ssr_protocol:-origin}
+
+read -p "请输入混淆方式 (默认 plain): " ssr_obfs
+ssr_obfs=${ssr_obfs:-plain}
+
+# 生成配置文件
+cat > $CONFIG_FILE <<-EOF
 {
     "server":"0.0.0.0",
-    "server_ipv6":"::",
-    "server_port":${PORT},
+    "server_port":$ssr_port,
+    "local_address":"127.0.0.1",
     "local_port":1080,
-    "password":"${PASSWORD}",
-    "timeout":600,
-    "method":"${METHOD}",
-    "protocol":"${PROTOCOL}",
-    "protocol_param":"",
-    "obfs":"${OBFS}",
-    "obfs_param":"",
-    "redirect":"",
-    "dns_ipv6":false,
-    "fast_open":false,
-    "workers":1
+    "password":"$ssr_pass",
+    "timeout":120,
+    "method":"$ssr_method",
+    "protocol":"$ssr_protocol",
+    "obfs":"$ssr_obfs"
 }
 EOF
+
 
     cat > /lib/systemd/system/shadowsocksR.service <<-EOF
 [Unit]

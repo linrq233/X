@@ -1,10 +1,9 @@
 #!/bin/bash
-# 🚀 SSR For Ubuntu Docker 管理脚本
+# 🚀 SSR For Ubuntu 管理脚本
 # 支持 Debian/Ubuntu/CentOS/RHEL/Rocky/AlmaLinux/Fedora/openSUSE
 
 
 stty erase ^H   # 让退格键在终端里正常工作
-
 
 DOCKER_IMAGE="yinqishuo/ssr:0.01"
 CONTAINER_NAME="ssr"
@@ -13,7 +12,7 @@ CONFIG_PATH="/etc/shadowsocks-r/config.json"
 # ========== 样式 ==========
 RED='\e[31m'; GREEN='\e[32m'; YELLOW='\e[33m'; BLUE='\e[34m'; CYAN='\e[36m'; NC='\e[0m'
 INDENT=" "
-VERSION="v1.2.2"
+VERSION="v1.0"
 
 # ========== 小工具 ==========
 have_cmd(){ command -v "$1" >/dev/null 2>&1; }
@@ -23,7 +22,7 @@ script_path() {
   local p
   p="$(readlink -f "${BASH_SOURCE[0]:-$0}" 2>/dev/null || realpath "${BASH_SOURCE[0]:-$0}" 2>/dev/null || echo "$0")"
   if [[ ! -f "$p" || "$(basename "$p")" = "bash" ]]; then
-    [[ -f "./Ubuntu_SSR.sh" ]] && p="./Ubuntu_SSR.sh" || { echo ""; return 1; }
+    [[ -f "./ssr-plus.sh" ]] && p="./ssr-plus.sh" || { echo ""; return 1; }
   fi
   echo "$p"
 }
@@ -108,7 +107,7 @@ ensure_docker_running(){ command -v docker >/dev/null 2>&1 || return 1; docker i
 
 # ========== 状态检测 ==========
 check_ssr_status(){
-  if ! command -v docker >/dev/null 2>&1; then SSR_STATUS="${RED}未安装 (Docker 未安装)${NC}"; return; fi
+  if ! command -v docker >/dev/null 2>&1; 键，然后 SSR_STATUS="${RED}未安装 (Docker 未安装)${NC}"; return; fi
   docker info >/dev/null 2>&1 || { SSR_STATUS="${RED}Docker 未运行${NC}"; return; }
   docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}\$" || { SSR_STATUS="${RED}未安装${NC}"; return; }
   [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)" = "true" ] || { SSR_STATUS="${YELLOW}容器已停止${NC}"; return; }
@@ -164,12 +163,12 @@ try:
     with open(p,"r") as f:
         d=json.load(f)
     def esc(v):
-        return (str(v) if v is not None else "").replace("\\"，"\\\\").replace("$","\\$").replace("`","\\`").replace('"','\\"')
+        return (str(v) if v is not None else "").replace("\\","\\\\").replace("$","\\$").replace("`","\\`").replace('"','\\"')
     print('PORT="%s"' % esc(d.get("server_port","")))
     print('PASSWORD="%s"' % esc(d.get("password","")))
     print('METHOD="%s"' % esc(d.get("method","")))
-    print('PROTOCOL="%s"' % esc(d.get("protocol"，"")))
-    print('OBFS="%s"' % esc(d.get("obfs"，"")))
+    print('PROTOCOL="%s"' % esc(d.get("protocol","")))
+    print('OBFS="%s"' % esc(d.get("obfs","")))
 except Exception:
     pass
 PY
@@ -198,7 +197,7 @@ choose_method(){ echo -e "\n${CYAN}${INDENT}请选择加密方式:${NC}"
  ${INDENT}16) chacha20-ietf
 EOF
   read -p "${INDENT}输入序号 [默认16]: " method
-  case $method 在
+  case $method in
     1) METHOD="none";; 2) METHOD="rc4";; 3) METHOD="rc4-md5";; 4) METHOD="rc4-md5-6";;
     5) METHOD="aes-128-ctr";; 6) METHOD="aes-192-ctr";; 7) METHOD="aes-256-ctr";;
     8) METHOD="aes-128-cfb";; 9) METHOD="aes-192-cfb";; 10) METHOD="aes-256-cfb";;
@@ -468,7 +467,7 @@ auto_heal_ssr
 check_ssr_status
 
 echo -e "${CYAN}${INDENT}=============================="
-echo -e "${INDENT}🚀 SSR For Ubuntu - 管理脚本 ${VERSION} 🚀"
+echo -e "${INDENT}🚀  SSR For Ubuntu 管理脚本 ${VERSION} 🚀"
 echo -e "${INDENT}==============================${NC}"
 echo -e "${GREEN}${INDENT}1) 安装 SSR${NC}"
 echo -e "${GREEN}${INDENT}2) 修改配置${NC}"
@@ -485,8 +484,8 @@ echo -e "${INDENT}系统加速状态: ${BBR_STATUS}"
 echo -e "${INDENT}SSR 当前状态: ${SSR_STATUS}"
 echo -e "${CYAN}${INDENT}==============================${NC}"
 
-read -p "${INDENT}请输入选项 [1-10]: " choice
-case $choice 在
+read -p "${INDENT}请输入选项 [1-9]: " choice
+case $choice in
   1) install_docker; install_ssr ;;
   2) change_config ;;
   3) show_config ;;

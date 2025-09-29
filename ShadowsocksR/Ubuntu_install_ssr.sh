@@ -17,7 +17,7 @@ if [[ "$?" != "0" ]]; then
 fi
 
 FILENAME="ShadowsocksR-v3.2.2"
-URL="${V6_PROXY}https://github.com/shadowsocksrr/shadowsocksr/archive/3.2.2.tar.gz"
+URL="${V6_PROXY}https://github.com/linrq233/X/releases/download/v3.2.2/shadowsocksr-3.2.2.tar.gz"
 BASE=`pwd`
 OS=`hostnamectl | grep -i system | cut -d: -f2`
 
@@ -281,7 +281,7 @@ installSSR() {
         tar -zxf ${FILENAME}.tar.gz
         mv shadowsocksr-3.2.2/shadowsocks /usr/local
         if [ ! -f /usr/local/shadowsocks/server.py ]; then
-            colorEcho $RED " $OS 安装SSR失败，请到 https://hijk.art 网站反馈"
+            colorEcho $RED " $OS 安装SSR失败"
             cd ${BASE} && rm -rf shadowsocksr-3.2.2 ${FILENAME}.tar.gz
             exit 1
         fi

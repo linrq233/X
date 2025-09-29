@@ -195,7 +195,7 @@ choose_method(){ echo -e "\n${CYAN}${INDENT}请选择加密方式:${NC}"
  ${INDENT}16) chacha20-ietf
 EOF
   read -p "${INDENT}输入序号 [默认16]: " method
-  case $method 在
+  case $method in
     1) METHOD="none";; 2) METHOD="rc4";; 3) METHOD="rc4-md5";; 4) METHOD="rc4-md5-6";;
     5) METHOD="aes-128-ctr";; 6) METHOD="aes-192-ctr";; 7) METHOD="aes-256-ctr";;
     8) METHOD="aes-128-cfb";; 9) METHOD="aes-192-cfb";; 10) METHOD="aes-256-cfb";;
@@ -227,7 +227,7 @@ choose_obfs(){ echo -e "\n${CYAN}${INDENT}请选择混淆 (obfs):${NC}"
  ${INDENT}5) tls1.2_ticket_auth
 EOF
   read -p "${INDENT}输入序号 [默认1]: " obfs
-  case $obfs 在
+  case $obfs in
     1|"") OBFS="plain";; 2) OBFS="http_simple";; 3) OBFS="http_post";; 4) OBFS="random_head";; 5) OBFS="tls1.2_ticket_auth";; *) OBFS="plain";;
   esac
 }
@@ -272,7 +272,7 @@ generate_ssr_link() {
   echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
 
   if ((${#v4s[@]})); then
-    for ip4 在 "${v4s[@]}"; do
+    for ip4 in "${v4s[@]}"; do
       remarks_b64url="$(enc_b64url "X:${ip4}:${PORT}")"
       group_b64url="$(enc_b64url "O")"
       # 规范 Raw：只有一个 ?，空参数也保留 key
@@ -335,7 +335,7 @@ run_container_with_boot(){
     --restart unless-stopped \
     -p ${map_port}:${map_port} \
     --health-cmd "python -c 'import socket,sys; s=socket.socket(); s.settimeout(2); s.connect((\"127.0.0.1\",${map_port})); s.close()' || exit 1" \
-    --health-interval 10s --health-retries 3 --health-timeout 3s --health-start-period 5s \
+    --health-interval 10秒 --health-retries 3 --health-timeout 3秒 --health-start-period 5秒 \
     $DOCKER_IMAGE \
     bash -lc 'cat >/usr/local/bin/ssr-boot.sh << "SH"
 #!/bin/bash

@@ -318,20 +318,21 @@ installSSR() {
     fi
 
 # --- 交互式输入配置 ---
-read -p "请输入服务端口 (默认 8388): " ssr_port
+read -p "请输入服务端口 (默认 8388): " ssr_port </dev/tty
 ssr_port=${ssr_port:-8388}
 
-read -p "请输入连接密码 (默认 password123): " ssr_pass
+read -p "请输入连接密码 (默认 password123): " ssr_pass </dev/tty
 ssr_pass=${ssr_pass:-password123}
 
-read -p "请输入加密方式 (默认 aes-256-cfb): " ssr_method
+read -p "请输入加密方式 (默认 aes-256-cfb): " ssr_method </dev/tty
 ssr_method=${ssr_method:-aes-256-cfb}
 
-read -p "请输入协议 (默认 origin): " ssr_protocol
+read -p "请输入协议 (默认 origin): " ssr_protocol </dev/tty
 ssr_protocol=${ssr_protocol:-origin}
 
-read -p "请输入混淆方式 (默认 plain): " ssr_obfs
+read -p "请输入混淆方式 (默认 plain): " ssr_obfs </dev/tty
 ssr_obfs=${ssr_obfs:-plain}
+
 
 # 生成配置文件
 cat > $CONFIG_FILE <<-EOF

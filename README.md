@@ -4,7 +4,7 @@
 - 1.初次安装  
 `bash <(curl -sL https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/centos_install_ssr.sh)`
 
-  `wget -o Ubuntu_SSR.sh https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/Ubuntu_SSR.sh && chmod +x Ubuntu_SSR.sh && bash Ubuntu_SSR.sh`
+  `wget -O Ubuntu_SSR.sh https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/Ubuntu_SSR.sh && chmod +x Ubuntu_SSR.sh && bash Ubuntu_SSR.sh`
 
     `curl -fsSL -o Ubuntu_SSR.sh https://raw.githubusercontent.com/linrq233/X/main/ShadowsocksR/Ubuntu_SSR.sh && chmod +x Ubuntu_SSR.sh && bash Ubuntu_SSR.sh`
 

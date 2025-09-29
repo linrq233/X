@@ -232,7 +232,7 @@ choose_obfs(){ echo -e "\n${CYAN}${INDENT}请选择混淆 (obfs):${NC}"
  ${INDENT}5) tls1.2_ticket_auth
 EOF
   read -p "${INDENT}输入序号 [默认1]: " obfs
-  case $obfs 在
+  case $obfs in
     1|"") OBFS="plain";; 2) OBFS="http_simple";; 3) OBFS="http_post";; 4) OBFS="random_head";; 5) OBFS="tls1.2_ticket_auth";; *) OBFS="plain";;
   esac
 }

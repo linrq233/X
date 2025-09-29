@@ -20,7 +20,7 @@ script_path() {
   local p
   p="$(readlink -f "${BASH_SOURCE[0]:-$0}" 2>/dev/null || realpath "${BASH_SOURCE[0]:-$0}" 2>/dev/null || echo "$0")"
   if [[ ! -f "$p" || "$(basename "$p")" = "bash" ]]; then
-    [[ -f "./ssr-plus.sh" ]] && p="./ssr-plus.sh" || { echo ""; return 1; }
+    [[ -f "./Ubuntu_SSR.sh" ]] && p="./Ubuntu_SSR.sh" || { echo ""; return 1; }
   fi
   echo "$p"
 }
@@ -195,7 +195,7 @@ choose_method(){ echo -e "\n${CYAN}${INDENT}请选择加密方式:${NC}"
  ${INDENT}16) chacha20-ietf
 EOF
   read -p "${INDENT}输入序号 [默认16]: " method
-  case $method in
+  case $method 在
     1) METHOD="none";; 2) METHOD="rc4";; 3) METHOD="rc4-md5";; 4) METHOD="rc4-md5-6";;
     5) METHOD="aes-128-ctr";; 6) METHOD="aes-192-ctr";; 7) METHOD="aes-256-ctr";;
     8) METHOD="aes-128-cfb";; 9) METHOD="aes-192-cfb";; 10) METHOD="aes-256-cfb";;
@@ -215,7 +215,7 @@ EOF
   read -p "${INDENT}输入序号 [默认3]: " protocol
   case $protocol in
     1) PROTOCOL="origin";; 2|"") PROTOCOL="auth_sha1_v4";; 3) PROTOCOL="auth_aes128_md5";;
-    4) PROTOCOL="auth_aes128_sha1";; 5) PROTOCOL="auth_chain_a";; 6) PROTOCOL="auth_chain_b";; *) PROTOCOL="auth_sha1_v4";;
+    4) PROTOCOL="auth_aes128_sha1";; 5) PROTOCOL="auth_chain_a";; 6) PROTOCOL="auth_chain_b";; *) PROTOCOL="auth_aes128_md5";;
   esac
 }
 choose_obfs(){ echo -e "\n${CYAN}${INDENT}请选择混淆 (obfs):${NC}"
@@ -227,7 +227,7 @@ choose_obfs(){ echo -e "\n${CYAN}${INDENT}请选择混淆 (obfs):${NC}"
  ${INDENT}5) tls1.2_ticket_auth
 EOF
   read -p "${INDENT}输入序号 [默认1]: " obfs
-  case $obfs in
+  case $obfs 在
     1|"") OBFS="plain";; 2) OBFS="http_simple";; 3) OBFS="http_post";; 4) OBFS="random_head";; 5) OBFS="tls1.2_ticket_auth";; *) OBFS="plain";;
   esac
 }
@@ -272,9 +272,9 @@ generate_ssr_link() {
   echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
 
   if ((${#v4s[@]})); then
-    for ip4 in "${v4s[@]}"; do
-      remarks_b64url="$(enc_b64url "SSR-Plus:${ip4}:${PORT}")"
-      group_b64url="$(enc_b64url "SSR-Plus")"
+    for ip4 在 "${v4s[@]}"; do
+      remarks_b64url="$(enc_b64url "X:${ip4}:${PORT}")"
+      group_b64url="$(enc_b64url "O")"
       # 规范 Raw：只有一个 ?，空参数也保留 key
       local raw="${ip4}:${PORT}:${PROTOCOL}:${METHOD}:${OBFS}:${pwd_b64url}/?obfsparam=&protoparam=&remarks=${remarks_b64url}&group=${group_b64url}"
       # 外层 URL-safe base64

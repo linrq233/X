@@ -12,10 +12,6 @@ CONFIG_PATH="/etc/shadowsocks-r/config.json"
 RED='\e[31m'; GREEN='\e[32m'; YELLOW='\e[33m'; BLUE='\e[34m'; CYAN='\e[36m'; NC='\e[0m'
 INDENT=" "
 
-
-# ========== 更新源（可配镜像/IPv4/IPv6/强制覆盖）==========
-RAW_URL_DEFAULT="https://raw.githubusercontent.com/Alvin9999/SSR-Plus/main/ssr-plus.sh"
-
 # ========== 小工具 ==========
 have_cmd(){ command -v "$1" >/dev/null 2>&1; }
 

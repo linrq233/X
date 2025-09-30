@@ -271,7 +271,7 @@ generate_ssr_link() {
   local pwd_b64url remarks_b64url group_b64url
   pwd_b64url="$(enc_b64url "$PASSWORD")"
 
-  echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
+  echo -e "\n${GREEN}${INDENT}SSR 链接/二维码（任选其一导入客户端）：${NC}"
 
 
   if ((${#v4s[@]})); then
@@ -282,7 +282,7 @@ generate_ssr_link() {
       local raw="${ip4}:${PORT}:${PROTOCOL}:${METHOD}:${OBFS}:${pwd_b64url}/?obfsparam=&protoparam=&remarks=${remarks_b64url}&group=${group_b64url}"
       # 外层 URL-safe base64
       local link="ssr://$(enc_b64url "$raw")"
-      echo -e "${INDENT}- ${YELLOW}${ip4}${NC}: ${link}"
+      echo -e "${INDENT}${link}"
       # 生成二维码
       echo "$link" | qrencode -t ANSIUTF8
     done
@@ -361,7 +361,7 @@ exec /usr/local/bin/ssr-boot.sh'
 install_ssr(){
   echo -e "${BLUE}${INDENT}安装 SSR...${NC}"
   read -p "${INDENT}请输入端口 [默认20000]: " PORT; PORT=${PORT:-20000}
-  read -p "${INDENT}请输入密码 [默认Lacy0405]: " PASSWORD; PASSWORD=${PASSWORD:-Lacy0405}
+  read -p "${INDENT}请输入密码 [默认LacyLacy]: " PASSWORD; PASSWORD=${PASSWORD:-LacyLacy}
   choose_method; choose_protocol; choose_obfs
 
   install_docker; ensure_docker_running || { echo -e "${RED}${INDENT}Docker 未运行，安装中止${NC}"; return; }

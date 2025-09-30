@@ -4,6 +4,8 @@
 
 stty erase ^H   # 让退格键在终端里正常工作
 
+apt-get install -y qrencode   # 输出二维码
+
 DOCKER_IMAGE="linrq233/ssr:v1.0"
 CONTAINER_NAME="ssr"
 CONFIG_PATH="/etc/shadowsocks-r/config.json"
@@ -270,6 +272,9 @@ generate_ssr_link() {
   pwd_b64url="$(enc_b64url "$PASSWORD")"
 
   echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
+  echo -e "\n${GREEN}${INDENT}📱 扫描二维码导入：${NC}"
+  echo "$ssr_link" | qrencode -t ANSIUTF8
+
 
   if ((${#v4s[@]})); then
     for ip4 in "${v4s[@]}"; do

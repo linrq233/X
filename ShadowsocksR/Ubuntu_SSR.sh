@@ -4,8 +4,6 @@
 
 stty erase ^H   # 让退格键在终端里正常工作
 
-apt-get install -y qrencode   # 输出二维码
-
 DOCKER_IMAGE="linrq233/ssr:v1.0"
 CONTAINER_NAME="ssr"
 CONFIG_PATH="/etc/shadowsocks-r/config.json"
@@ -16,6 +14,8 @@ INDENT=" "
 
 # ========== 小工具 ==========
 have_cmd(){ command -v "$1" >/dev/null 2>&1; }
+
+apt-get install -y qrencode   # 安装二维码工具
 
 # 当前脚本真实路径
 script_path() {

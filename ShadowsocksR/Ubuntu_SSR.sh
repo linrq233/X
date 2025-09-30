@@ -272,8 +272,6 @@ generate_ssr_link() {
   pwd_b64url="$(enc_b64url "$PASSWORD")"
 
   echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
-  echo -e "\n${GREEN}${INDENT}扫描二维码导入：${NC}"
-  echo "${link}" | qrencode -t ANSIUTF8
 
 
   if ((${#v4s[@]})); then
@@ -285,6 +283,8 @@ generate_ssr_link() {
       # 外层 URL-safe base64
       local link="ssr://$(enc_b64url "$raw")"
       echo -e "${INDENT}- ${YELLOW}${ip4}${NC}: ${link}"
+      # 生成二维码
+      echo "$link" | qrencode -t ANSIUTF8
     done
   else
     echo -e "${INDENT}- ${YELLOW}未检测到公网 IPv4${NC}"

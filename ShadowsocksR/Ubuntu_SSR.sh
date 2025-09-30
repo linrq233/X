@@ -272,8 +272,8 @@ generate_ssr_link() {
   pwd_b64url="$(enc_b64url "$PASSWORD")"
 
   echo -e "\n${GREEN}${INDENT}SSR 链接（任选其一导入客户端）：${NC}"
-  echo -e "\n${GREEN}${INDENT}📱 扫描二维码导入：${NC}"
-  echo "$ssr_link" | qrencode -t ANSIUTF8
+  echo -e "\n${GREEN}${INDENT}扫描二维码导入：${NC}"
+  echo "${link}" | qrencode -t ANSIUTF8
 
 
   if ((${#v4s[@]})); then
